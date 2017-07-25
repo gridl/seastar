@@ -3,6 +3,64 @@ from sqlalchemy.orm import backref, relationship
 
 from database import Base
 
+### PLATFORM COMPONENTS
+
+class Platform(Base):
+    __tablename__ = 'platform'
+    id = Column(Integer, primary_key=True)
+
+class Node(Base):
+    __tablename__ = 'platform_node'
+    id = Column(Integer, primary_key=True)
+    platform_id = Column(Integer, ForeignKey('platform.id'))
+
+class CPU(Base):
+    __tablename__ = 'platform_node'
+    id = Column(Integer, primary_key=True)
+    node_id = Column(Integer, ForeignKey('platform_node.id'))
+
+class Core(Base):
+    __tablename__ = 'platform_core'
+    id = Column(Integer, primary_key=True)
+    cpu_id = Column(Integer, ForeignKey('platform_cpu.id'))
+
+### APPLICATION COMPONENTS
+
+class Application(Base):
+    __tablename__ = 'application'
+    id = Column(Integer, primary_key=True)
+
+class Process(Base):
+    __tablename__ = 'application_process'
+    id = Column(Integer, primary_key=True)
+
+class Thread(Base):
+    __tablename__ = 'application_thread'
+    id = Column(Integer, primary_key=True)
+
+### MAPPINGS
+
+class ThreadToCoreMapping(Base)
+    __tablename__ = 'mapping_thread_to_core'
+    thread_id = Column(Integer, ForeignKey('application_thread.id'))
+    core_id = Column(Integer, ForeignKey('platform_core.id'))
+    # Mapping scope
+    b = Column(DateTime, default=func.now())
+    e = Column(DateTime)
+    # Mapping properties
+    
+class ProcessToCPUMapping(Base)
+    __tablename__ = 'mapping_thread_to_core'
+    thread_id = Column(Integer, ForeignKey('thread.id'))
+    cpu_id = Column(Integer, ForeignKey('cpu.id'))
+    # Mapping scope
+    b = Column(DateTime, default=func.now())
+    e = Column(DateTime)
+    # Mapping properties
+
+
+
+
 
 class Department(Base):
     __tablename__ = 'department'
