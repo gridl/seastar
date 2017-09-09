@@ -14,25 +14,44 @@ def init_db():
     # import all modules here that might define models so that
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
-    from models import Department, Employee, Role
+    # from .models import Department, Employee, Role
+    from .models import Platform, Node, Processor
+
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
-    # Create the fixtures
-    engineering = Department(name='Engineering')
-    db_session.add(engineering)
-    hr = Department(name='Human Resources')
-    db_session.add(hr)
+    # # Create the fixtures
+    # engineering = Department(name='Engineering')
+    # db_session.add(engineering)
+    # hr = Department(name='Human Resources')
+    # db_session.add(hr)
+    #
+    # manager = Role(name='manager')
+    # db_session.add(manager)
+    # engineer = Role(name='engineer')
+    # db_session.add(engineer)
+    #
+    # peter = Employee(name='Peter', department=engineering, role=engineer)
+    # db_session.add(peter)
+    # roy = Employee(name='Roy', department=engineering, role=engineer)
+    # db_session.add(roy)
+    # tracy = Employee(name='Tracy', department=hr, role=manager)
+    # db_session.add(tracy)
+    # db_session.commit()
 
-    manager = Role(name='manager')
-    db_session.add(manager)
-    engineer = Role(name='engineer')
-    db_session.add(engineer)
+    cluster = Platform(name='cyrus')
+    db_session.add(cluster)
 
-    peter = Employee(name='Peter', department=engineering, role=engineer)
-    db_session.add(peter)
-    roy = Employee(name='Roy', department=engineering, role=engineer)
-    db_session.add(roy)
-    tracy = Employee(name='Tracy', department=hr, role=manager)
-    db_session.add(tracy)
+    node01 = Node(name='node01', platform=cluster)
+    db_session.add(node01)
+
+    node02 = Node(name='node02', platform=cluster)
+    db_session.add(node02)
+
+    node03 = Node(name='node03', platform=cluster)
+    db_session.add(node03)
+
+    node04 = Node(name='node04', platform=cluster)
+    db_session.add(node04)
+
     db_session.commit()

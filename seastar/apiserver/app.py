@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 from flask import Flask
-
-from database import db_session, init_db
 from flask_graphql import GraphQLView
-from schema import schema
+
+from .schema import schema
+from .database import db_session, init_db
 
 app = Flask(__name__)
 app.debug = True
