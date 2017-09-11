@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Creation:    06.06.2017
+# Last Update: 21.07.2017
+#
+# <https://codewerft.net>
+#
+# Copyright (c) 2017 Codewerft UG (haftungsbeschränkt)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -15,7 +30,7 @@ def init_db():
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
     # from .models import Department, Employee, Role
-    from .models import Platform, Node, Processor
+    from seastar.model.platform_anatomy import Platform, ComputeNode, Processor, ProcessorCore
 
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
@@ -42,16 +57,17 @@ def init_db():
     cluster = Platform(name='cyrus')
     db_session.add(cluster)
 
-    node01 = Node(name='node01', platform=cluster)
-    db_session.add(node01)
+    for n in range(0, 8):
+        node = ComputeNode(name='node-'+str(n), platform=cluster)
+        db_session.add(node)
 
-    node02 = Node(name='node02', platform=cluster)
-    db_session.add(node02)
+        for p in range(0, 8):
+            processor = Processor(name="processor-"+str(p), compute_node=node)
+            db_session.add(processor)
 
-    node03 = Node(name='node03', platform=cluster)
-    db_session.add(node03)
 
-    node04 = Node(name='node04', platform=cluster)
-    db_session.add(node04)
+            for c in range(0, 16):
+                core = ProcessorCore(name="core-"+str(p), processor=processor)
+                db_session.add(core)
 
     db_session.commit()
