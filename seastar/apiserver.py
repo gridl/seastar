@@ -17,7 +17,7 @@ from flask import Flask
 from flask_graphql import GraphQLView
 
 from seastar.schema import platform_anatomy as schema
-from .database import db_session, init_db
+from seastar.database import db_session, init_db
 
 app = Flask(__name__)
 app.debug = True
